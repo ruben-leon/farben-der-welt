@@ -1,0 +1,37 @@
+<div class="spielfeld">
+  <ng-container
+    *ngIf="questionsService.questions | async as data; else templateName"
+  >
+    <div class="question-title">{{ data[currentQuestionIndex].frage }}</div>
+  </ng-container>
+
+  <!-- <ng-content></ng-content> -->
+
+  <div class="color-card-container">
+    <div
+      *ngFor="let color of getColorValues(); let i = index"
+      class="color-card"
+      [style.background-color]="color"
+      (click)="onColorClick(color)"
+      [class.selected]="isSelected(color)"
+    ></div>
+  </div>
+  <div class="button-container">
+    <button (click)="compareArrays()">
+      {{ isLastQuestion ? "Auswerten" : "Nächste Frage" }}
+    </button>
+  </div>
+
+  <ng-container
+    *ngIf="questionsService.questions | async as data; else templateName"
+  >
+    <div class="question-counter">
+      {{ data[currentQuestionIndex].id }} / {{ data[data.length - 1].id }}
+    </div>
+  </ng-container>
+  <!-- <app-button [compareFunction]="compareArrays"></app-button> -->
+</div>
+
+<ng-template #templateName>
+  <div>mal irgendein quatsch</div>
+</ng-template>

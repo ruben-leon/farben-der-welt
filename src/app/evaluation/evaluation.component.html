@@ -1,0 +1,52 @@
+<div class="evaluation-page">
+  <h1>AUSWERTUNG</h1>
+  <div
+    class="evaluation-summary"
+    *ngIf="questionsService.questions | async as data"
+  >
+    Du hast {{ getCorrectAnswersCount() }} von
+    {{ data[data.length - 1].id }} Fragen richtig beantwortet
+  </div>
+
+  <div
+    *ngFor="let result of getQuestionResults(); let i = index"
+    class="evaluation-details-container"
+    [ngClass]="getCssClass(result)"
+  >
+    <div class="question-info">
+      <h2>{{ i + 1 }}.</h2>
+      <div *ngIf="questionsService.questions | async as data">
+        <p class="evaluation-question">{{ data[i].frage }}</p>
+      </div>
+
+      <p>Gewählte Farben:</p>
+
+      <div class="color-card-container">
+        <div
+          *ngFor="let color of result.selectedColors; let i = index"
+          class="evaluation-color-card"
+          [style.background-color]="color"
+        ></div>
+      </div>
+
+      <p>Richtige Antworten:</p>
+
+      <div class="color-card-container">
+        <div
+          *ngFor="let color of result.correctAnswers; let i = index"
+          class="evaluation-color-card"
+          [style.background-color]="color"
+        ></div>
+      </div>
+
+      <h3>Ergebnis: {{ result.isCorrect ? "Richtig" : "Falsch" }}</h3>
+    </div>
+
+    <div
+      *ngIf="questionsService.questions | async as data"
+      class="evaluation-picture"
+    >
+      <img [src]="data[i].bild" alt="Auflösungs-Bild" />
+    </div>
+  </div>
+</div>
